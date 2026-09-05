@@ -20,20 +20,21 @@ Aura Gastronomique no es un simple menú digital en PDF ni un catálogo estátic
 
 ## 2. Ecosistema de Herramientas y Stack Tecnológico (Tools & Libraries)
 
-| Capa / Dominio | Herramienta / Tecnología | Propósito y Función en el Proyecto |
-| :--- | :--- | :--- |
-| **Framework Base** | **Next.js 16 (Turbopack + App Router)** | Arquitectura moderna con Server Components y renderizado híbrido estático/dinámico. |
-| **Biblioteca de UI** | **React 19 + TypeScript 5** | Tipado estricto de datos de menú, componentes atómicos e interfaces reactivas. |
-| **Estilos & Diseño** | **Tailwind CSS v4** | Motor de estilos de alto rendimiento basado en Rust con variables CSS nativas y soporte de *Dark-First Gourmet*. |
-| **Motion & Micro-interacciones** | **GSAP (GreenSock) + Framer Motion** | Orquestación de líneas de tiempo para transiciones cinemáticas de entrada, física `power3.out` y animaciones táctiles. |
-| **Generación Visual de Fondos** | **Haikei ([haikei.app](https://haikei.app/))** | Generación de texturas vectoriales SVG multicapa orgánicas y dunas topográficas de bajo peso para evitar fondos negros planos. |
-| **Motor 3D & Realidad Aumentada** | **`@google/model-viewer` v4** | Motor WebGL/WebXR que abstrae de forma nativa la proyección AR para Apple QuickLook (`.usdz` en iOS) y SceneViewer (`.glb` en Android). |
-| **Diseño y Shaders 3D** | **Spline ([spline.design](https://spline.design/))** | Herramienta de modelado y exportación de archivos `.glb` optimizados para la vajilla de los restaurantes. |
-| **Estado Global y Persistencia** | **Zustand 5 (con middleware `persist`)** | Manejo de estado del carrito/comanda, filtros de carta y persistencia en `localStorage` ante desconexiones. |
-| **Base de Datos & Backend** | **Supabase (PostgreSQL 15 + RLS)** | Almacenamiento relacional de restaurantes, perfiles, cartas, fotos, modelos 3D y comandas en tiempo real. |
-| **Storage Multimedia** | **Supabase Storage (`menu-media`)** | CDN para servir modelos pesados (`.glb`, `.usdz`), pósters WebP y fotografías culinarias con compresión. |
-| **Despliegue & CI/CD** | **Netlify + GitHub** | Hosting global en Edge CDN, headers de seguridad WebAR, soporte HTTPS obligatorio para cámara y despliegue automático desde `master`. |
-| **Iconografía Técnica** | **Lucide React** | Iconografía vectorizada minimalista y sin emojis (*anti-slop*). |
+| Capa / Dominio | Herramienta / Tecnología | Enlace Oficial | Propósito y Función en el Proyecto |
+| :--- | :--- | :--- | :--- |
+| **Motion & Líneas de Tiempo** | **GSAP (GreenSock)** | [https://gsap.com/](https://gsap.com/) | Estándar de la industria para animaciones ultra fluidas a 60–120 FPS, transiciones cinemáticas con física `power3.out` y entrada orquestada. |
+| **Generador de Fondos SVG** | **Haikei App** | [https://haikei.app/](https://haikei.app/) | Generación de texturas vectoriales SVG multicapa, dunas y curvas topográficas oscuras con gradientes para fondos inmersivos de bajo peso. |
+| **Modelado & Escenas 3D** | **Spline 3D** | [https://spline.design/](https://spline.design/) | Plataforma web para diseñar, texturizar e iluminar los modelos 3D de la vajilla y exportar directamente los archivos `.glb` optimizados. |
+| **Visor 3D & WebAR Nativo** | **Google Model Viewer** | [https://modelviewer.dev/](https://modelviewer.dev/) | Motor WebGL/WebXR que activa la cámara sin instalar apps; integra **Apple QuickLook** (`.usdz`) en iOS y **SceneViewer** (`.glb`) en Android. |
+| **Framework Web Principal** | **Next.js 16 (App Router)** | [https://nextjs.org/](https://nextjs.org/) | Framework React con compilador Turbopack, App Router y arquitectura lista para producción de alta demanda. |
+| **Biblioteca de UI** | **React 19** | [https://react.dev/](https://react.dev/) | Capa de componentes reactivos, hooks modernos y concurrencia. |
+| **Tipado Estricto** | **TypeScript 5** | [https://www.typescriptlang.org/](https://www.typescriptlang.org/) | Tipado exhaustivo de platos, comandas, opciones dietéticas y modelos relacionales. |
+| **Motor de Estilos** | **Tailwind CSS v4** | [https://tailwindcss.com/](https://tailwindcss.com/) | Motor CSS compilado en Rust con soporte nativo de variables CSS y diseño *Dark Gourmet Minimalist*. |
+| **Gestión de Estado** | **Zustand 5** | [https://zustand-demo.pmnd.rs/](https://zustand-demo.pmnd.rs/) | Estado global reactivo para la comanda y filtros con middleware `persist` en `localStorage`. |
+| **Base de Datos & Backend** | **Supabase** | [https://supabase.com/](https://supabase.com/) | Backend PostgreSQL 15, autenticación RBAC, WebSockets Realtime y Storage CDN de assets multimedia. |
+| **Hosting & Despliegue CI/CD** | **Netlify** | [https://www.netlify.com/](https://www.netlify.com/) | Despliegue continuo desde GitHub con conexión HTTPS obligatoria para la cámara WebAR. |
+| **Iconografía Minimalista** | **Lucide React** | [https://lucide.dev/](https://lucide.dev/) | Set de iconos vectoriales limpios y técnicos sin emojis (*anti-slop*). |
+| **Animaciones React** | **Framer Motion** | [https://motion.dev/](https://motion.dev/) | Micro-interacciones táctiles tipo spring para botones y modales. |
 
 ---
 
