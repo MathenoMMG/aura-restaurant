@@ -1,10 +1,10 @@
-﻿'use client';
+﻿"use client";
 
-import React, { useState } from 'react';
-import { useComandaStore } from '@/store/useComandaStore';
-import { MenuTemplate } from '@/components/templates/MenuTemplate';
-import { AdminTemplate } from '@/components/templates/AdminTemplate';
-import { WelcomeTemplate } from '@/components/templates/WelcomeTemplate';
+import React, { useState } from "react";
+import { useComandaStore } from "@/store/useComandaStore";
+import { MenuTemplate } from "@/components/templates/MenuTemplate";
+import { AdminTemplate } from "@/components/templates/AdminTemplate";
+import { WelcomeTemplate } from "@/components/templates/WelcomeTemplate";
 
 export default function Home() {
   const [hasEntered, setHasEntered] = useState(false);

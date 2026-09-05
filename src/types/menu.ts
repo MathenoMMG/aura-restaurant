@@ -1,4 +1,10 @@
-export type DietaryFlag = 'vegetarian' | 'vegan' | 'glutenFree' | 'containsNuts' | 'chefSpecial' | 'signature';
+export type DietaryFlag =
+  | "vegetarian"
+  | "vegan"
+  | "glutenFree"
+  | "containsNuts"
+  | "chefSpecial"
+  | "signature";
 
 export interface DishModifier {
   id: string;
@@ -23,6 +29,8 @@ export interface Dish {
   model3dUrl?: string;
   usdzUrl?: string;
   imageUrl: string;
+  /** Fotos adicionales del plato. La primera del visor es siempre imageUrl. */
+  gallery?: string[];
   isAvailable: boolean;
   views3dCount: number;
   ordersCount: number;

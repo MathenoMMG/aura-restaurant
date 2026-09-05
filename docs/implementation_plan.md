@@ -7,6 +7,7 @@ Este documento establece el diseño técnico, el modelo relacional de datos en P
 ## 1. Modelo de Datos Relacional (PostgreSQL en Supabase)
 
 ### A. Extensiones de Postgres
+
 - `uuid-ossp` o `pgcrypto` para generación de IDs (`gen_random_uuid()`).
 - `citext` para emails case-insensitive.
 
@@ -29,7 +30,9 @@ erDiagram
 ```
 
 #### 1. `profiles` (Usuarios y Staff)
+
 Mapeada directamente con `auth.users` de Supabase:
+
 - `id`: `uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE`
 - `email`: `text NOT NULL`
 - `full_name`: `text`
@@ -39,6 +42,7 @@ Mapeada directamente con `auth.users` de Supabase:
 - `updated_at`: `timestamptz DEFAULT now()`
 
 #### 2. `restaurants` (Multi-tenant White-Label)
+
 - `id`: `uuid PRIMARY KEY DEFAULT gen_random_uuid()`
 - `slug`: `text UNIQUE NOT NULL` (ej. `aura-madrid`)
 - `name`: `text NOT NULL`
@@ -49,6 +53,7 @@ Mapeada directamente con `auth.users` de Supabase:
 - `created_at`: `timestamptz DEFAULT now()`
 
 #### 3. `restaurant_staff` (Asignación de roles por local)
+
 - `id`: `uuid PRIMARY KEY DEFAULT gen_random_uuid()`
 - `restaurant_id`: `uuid REFERENCES restaurants(id) ON DELETE CASCADE`
 - `profile_id`: `uuid REFERENCES profiles(id) ON DELETE CASCADE`
@@ -58,6 +63,7 @@ Mapeada directamente con `auth.users` de Supabase:
 - `UNIQUE(restaurant_id, profile_id)`
 
 #### 4. `categories` (Categorías del Menú)
+
 - `id`: `text PRIMARY KEY` (ej: `entrantes`, `principales`, `postres`, `bebidas`)
 - `restaurant_id`: `uuid REFERENCES restaurants(id) ON DELETE CASCADE`
 - `label`: `text NOT NULL`
@@ -65,6 +71,7 @@ Mapeada directamente con `auth.users` de Supabase:
 - `is_active`: `boolean DEFAULT true`
 
 #### 5. `dishes` (Platos y Creaciones Culinarias)
+
 - `id`: `text PRIMARY KEY` (ej: `wagyu-a5`, `caviar-imperial`)
 - `restaurant_id`: `uuid REFERENCES restaurants(id) ON DELETE CASCADE`
 - `category_id`: `text REFERENCES categories(id)`
@@ -85,7 +92,9 @@ Mapeada directamente con `auth.users` de Supabase:
 - `updated_at`: `timestamptz DEFAULT now()`
 
 #### 6. `dish_media` (Almacenamiento Multimedia Polimórfico)
+
 Especialmente diseñada para soportar **Foto, Video, GIF, Modelos 3D (GLB) y USDZ (iOS AR)**:
+
 - `id`: `uuid PRIMARY KEY DEFAULT gen_random_uuid()`
 - `dish_id`: `text REFERENCES dishes(id) ON DELETE CASCADE`
 - `media_type`: `text NOT NULL CHECK (media_type IN ('image', 'video', 'gif', 'model3d_glb', 'model3d_usdz', 'poster'))`
@@ -99,6 +108,7 @@ Especialmente diseñada para soportar **Foto, Video, GIF, Modelos 3D (GLB) y USD
 - `created_at`: `timestamptz DEFAULT now()`
 
 #### 7. `tables` (Mesas del Restaurante)
+
 - `id`: `uuid PRIMARY KEY DEFAULT gen_random_uuid()`
 - `restaurant_id`: `uuid REFERENCES restaurants(id) ON DELETE CASCADE`
 - `table_number`: `text NOT NULL` (ej. `Mesa 14`, `Terraza 2`)
@@ -106,6 +116,7 @@ Especialmente diseñada para soportar **Foto, Video, GIF, Modelos 3D (GLB) y USD
 - `is_occupied`: `boolean DEFAULT false`
 
 #### 8. `orders` (Comandas Consolidadas de Mesa)
+
 - `id`: `uuid PRIMARY KEY DEFAULT gen_random_uuid()`
 - `restaurant_id`: `uuid REFERENCES restaurants(id) ON DELETE CASCADE`
 - `table_id`: `uuid REFERENCES tables(id) ON DELETE SET NULL`
@@ -117,6 +128,7 @@ Especialmente diseñada para soportar **Foto, Video, GIF, Modelos 3D (GLB) y USD
 - `updated_at`: `timestamptz DEFAULT now()`
 
 #### 9. `order_items` (Detalle de cada plato en la comanda)
+
 - `id`: `uuid PRIMARY KEY DEFAULT gen_random_uuid()`
 - `order_id`: `uuid REFERENCES orders(id) ON DELETE CASCADE`
 - `dish_id`: `text REFERENCES dishes(id)`
@@ -137,8 +149,8 @@ Para servir fotos, videos y modelos 3D con máxima velocidad y optimización en 
    - `/videos/`: MP4 (H.264/H.265) y WebM ligeros para fondos o texturas en bucle.
    - `/gifs/`: Animaciones breves de elaboración culinaria.
    - `/models-3d/`:
-     * Archivos `.glb` optimizados con Draco / Meshopt compression.
-     * Archivos `.usdz` para QuickLook nativo en iPhone/iPad.
+     - Archivos `.glb` optimizados con Draco / Meshopt compression.
+     - Archivos `.usdz` para QuickLook nativo en iPhone/iPad.
 2. **Políticas de Storage RLS**:
    - **Lectura**: Acceso público (`anon`) a todos los archivos.
    - **Escritura/Subida/Borrado**: Restringido a usuarios autenticados con rol `owner`, `manager` o `chef` asociados al restaurante.

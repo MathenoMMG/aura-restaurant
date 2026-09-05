@@ -5,6 +5,7 @@ Este documento contiene dos propuestas de publicaciones de alto nivel técnico p
 ---
 
 ## Opción 1: Lanzamiento y Arquitectura de `Parleró`
+
 **Objetivo:** Mostrar dominio de producto end-to-end, Next.js 16, TypeScript, persistencia cloud silenciosa con Supabase y resolución de problemas reales en el ámbito del Politecnico di Torino.
 
 ```markdown
@@ -15,6 +16,7 @@ Durante mi preparación para el examen oficial de acreditación lingüística CL
 Por eso construí Parleró.
 
 Más que una aplicación de estudio, el reto radicó en la arquitectura técnica:
+
 1. Mobile-First & Latencia Cero: Construida sobre Next.js 16 (App Router), React 19 y Tailwind CSS v4. El diseño prioriza micro-interacciones táctiles nativas y feedback háptico/auditivo configurable para sostener el engagement.
 2. Persistencia Híbrida Offline-First: Los estudiantes necesitan repasar en el metro o en trayectos sin conexión. Implementé Zustand con sincronización automática hacia Supabase/PostgreSQL en background, eliminando por completo la fricción de un registro o login forzado para empezar a estudiar.
 3. Simulador de Examen en Tiempo Real: Algoritmo determinista de selección de preguntas bajo cronómetro estricto, emulando con fidelidad matemática el entorno de evaluación real del CLA PoliTo.
@@ -34,6 +36,7 @@ El código es open-source bajo licencia MIT:
 ---
 
 ## Opción 2: Innovación WebAR e Interfaces Inmersivas con `Aura Gastronomique`
+
 **Objetivo:** Demostrar capacidades de vanguardia en WebGL/WebXR, rendimiento en redes móviles 4G/5G, compresión 3D y diseño de sistemas de alta cocina.
 
 ```markdown
@@ -44,6 +47,7 @@ En el sector gastronómico premium, la proporción, la textura y el cromatismo d
 El objetivo: una experiencia WebAR 1:1 mobile-first, sin descargas en App Store ni logins que interrumpan el servicio.
 
 Desafíos de ingeniería superados en el desarrollo:
+
 1. Full-Viewport HUD a 100dvh: Diseñé una arquitectura de interfaz donde el canvas 3D interactivo toma el 100% de la pantalla táctil, con overlays translúcidos de cristal flotante (Glassmorphism de 1px con blur dinámico) que garantizan legibilidad sobre cualquier iluminación de sala.
 2. Compresión y Carga Instantánea (<1.2s LCP): Los modelos 3D pesados destruyen la conversión móvil. Optimizamos mallas con Draco Compression y Meshopt en formato binario .GLB, junto con posters WebP de precarga instantánea y soporte nativo USDZ QuickLook para dispositivos iOS.
 3. Ficha Sensorial & Storytelling Sommelier: Cada creación culinaria integra su historia de origen de ingredientes nobles, alérgenos transparentes y sugerencia de maridaje de copa recomendada por sommelier.

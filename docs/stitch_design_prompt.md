@@ -9,7 +9,7 @@
 
 ## 🎨 1. Sistema de Diseño Visual y Reglas Anti-Slop (Taste & Frontend Standards)
 
-- **Atmósfera:** *Cinematic Dark Gourmet & Minimalist Luxury*.
+- **Atmósfera:** _Cinematic Dark Gourmet & Minimalist Luxury_.
   - **Fondo Base:** Negro obsidiana profundo (`#08090A` / `hsl(240, 10%, 4%)`) con iluminación radial cenital cálida (`radial-gradient(circle at 50% 30%, rgba(229,195,120,0.07), transparent 70%)`).
   - **Acento Primario:** Champagne Gold refinado (`#E5C378` / `#D4AF37`) en acabado satinado mate para precios, estados activos y CTAs de acción.
   - **Elevación y Superficies Glassmorphism:**
@@ -17,14 +17,15 @@
     - Sombra multicapa calibrada: `box-shadow: 0 4px 12px -2px rgba(0,0,0,0.6), 0 16px 32px -4px rgba(0,0,0,0.8), inset 0 1px 0 0 rgba(255,255,255,0.08)`.
     - Vidrio ahumado con `backdrop-filter: blur(24px)` y micro-borde interior luminoso de 1px (`border: 1px solid rgba(255, 255, 255, 0.08)`).
 - **Tipografía Editorial:**
-  - Títulos de platos y display: Tipografía editorial romana con serif de alta costura (*Playfair Display*, *Cormorant Garamond* o *Fraunces* en weight 600-700) con espaciado óptico estricto.
-  - Datos numéricos, precios y badges: Sans-serif geométrica de precisión (*Satoshi*, *Cabinet Grotesk*) con números monoespaciados (`tabular-nums`).
+  - Títulos de platos y display: Tipografía editorial romana con serif de alta costura (_Playfair Display_, _Cormorant Garamond_ o _Fraunces_ en weight 600-700) con espaciado óptico estricto.
+  - Datos numéricos, precios y badges: Sans-serif geométrica de precisión (_Satoshi_, _Cabinet Grotesk_) con números monoespaciados (`tabular-nums`).
 
 ---
 
 ## 📱 2. Prompts de Generación Específicos para Stitch
 
 ### 🍸 PANTALLA 1: Welcome Screen & Onboarding de Mesa (Mobile Viewport 390×844px)
+
 > **Parámetros:** `projectId: "9234498351317745527"`, `deviceType: "MOBILE"`, `modelId: "GEMINI_3_1_PRO"`
 
 ```text
@@ -43,10 +44,11 @@ Bottom area features an imposing full-width primary CTA button in radiant satin 
 ---
 
 ### 🌟 PANTALLA 2: Feed Principal del Menú Móvil (Mobile Viewport 390×844px)
+
 > **Parámetros:** `projectId: "9234498351317745527"`, `deviceType: "MOBILE"`, `modelId: "GEMINI_3_1_PRO"`
 
 ```text
-An ultra-luxury mobile web application interface for a white-label fine-dining restaurant interactive menu (Aura Gastronomique). High-fashion dark gourmet aesthetic, viewport 390x844px. Background is deep obsidian black (#08090A, hsl(240, 10%, 4%)) with subtle warm amber-champagne ambient radial glows. 
+An ultra-luxury mobile web application interface for a white-label fine-dining restaurant interactive menu (Aura Gastronomique). High-fashion dark gourmet aesthetic, viewport 390x844px. Background is deep obsidian black (#08090A, hsl(240, 10%, 4%)) with subtle warm amber-champagne ambient radial glows.
 
 Top sticky floating glassmorphism header (backdrop blur 24px, 1px subtle luminous border): on the left, an understated luxury serif monogram logo 'AURA' with a delicate gold crest icon; in the center, a discreet frosted pill tag displaying active table status 'Table 14 • Main Salon'; on the right, a minimal obsidian shopping bag button with a glowing champagne gold counter badge '3'.
 
@@ -62,6 +64,7 @@ Floating at the bottom thumb zone is a translucent glassmorphic bar (blur 24px, 
 ---
 
 ### 🔮 PANTALLA 3: Visor Inmersivo Full-Viewport HUD 100dvh + Ficha Sensorial Extendida (360° Estudio + Cámara AR + Storytelling + Maridaje)
+
 > **Parámetros:** `projectId: "9234498351317745527"`, `deviceType: "MOBILE"`, `modelId: "GEMINI_3_1_PRO"`
 
 ```text
@@ -89,14 +92,15 @@ Ultra-clean, friction-free, dark luxury, spatial computing hospitality UI, zero 
 ---
 
 ### 🧾 PANTALLA 4: Unified Table Comanda Drawer (Slide-Over Ticket Review)
+
 > **Parámetros:** `projectId: "9234498351317745527"`, `deviceType: "MOBILE"`, `modelId: "GEMINI_3_1_PRO"`
 
 ```text
-A luxury mobile slide-over bottom sheet drawer for a fine-dining unified table order (Comanda de Mesa). Deep obsidian background with heavy backdrop blur (32px). 
+A luxury mobile slide-over bottom sheet drawer for a fine-dining unified table order (Comanda de Mesa). Deep obsidian background with heavy backdrop blur (32px).
 
-Top sheet handle bar in brushed champagne gold. Header displays 'Table 14 • Kitchen Order' in editorial serif, with a status pill 'Draft • 3 Creations'. 
+Top sheet handle bar in brushed champagne gold. Header displays 'Table 14 • Kitchen Order' in editorial serif, with a status pill 'Draft • 3 Creations'.
 
-List of selected dishes: each row features a crisp rounded-xl food thumbnail, dish title in serif, custom chef preparation notes rendered in delicate italic gold text ('Medium-rare • Sauce on the side'), quantity adjustment controls ([-] 2 [+]), and individual price. 
+List of selected dishes: each row features a crisp rounded-xl food thumbnail, dish title in serif, custom chef preparation notes rendered in delicate italic gold text ('Medium-rare • Sauce on the side'), quantity adjustment controls ([-] 2 [+]), and individual price.
 
 Bottom fixed summary module: elegant breakdown lines for Subtotal, Service charge (10%), and Grand Total in large champagne gold numerals. Primary full-width CTA button in glowing champagne gold: 'Send Consolidated Order to Kitchen' with a subtle haptic feedback indicator. Elegant, dark, friction-free.
 ```

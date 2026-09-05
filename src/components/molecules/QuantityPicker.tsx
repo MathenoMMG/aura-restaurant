@@ -1,5 +1,5 @@
-import React from 'react';
-import { Minus, Plus } from 'lucide-react';
+import React from "react";
+import { Minus, Plus } from "lucide-react";
 
 interface QuantityPickerProps {
   value: number;
@@ -12,10 +12,12 @@ export const QuantityPicker: React.FC<QuantityPickerProps> = ({
   value,
   onChange,
   min = 1,
-  className = '',
+  className = "",
 }) => {
   return (
-    <div className={`flex items-center gap-3 bg-stone-950/80 border border-stone-800/80 rounded-2xl px-3 py-1.5 backdrop-blur-md ${className}`}>
+    <div
+      className={`flex items-center gap-3 bg-stone-950/80 border border-stone-800/80 rounded-2xl px-3 py-1.5 backdrop-blur-md ${className}`}
+    >
       <button
         onClick={() => onChange(Math.max(min, value - 1))}
         className="p-1 text-stone-400 hover:text-white transition-colors cursor-pointer active:scale-90"

@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #08090A;
-  --foreground: #F4F4F5;
-  --satin-gold: #E5C378;
-  --satin-gold-dim: #C7A75C;
+  --background: #08090a;
+  --foreground: #f4f4f5;
+  --satin-gold: #e5c378;
+  --satin-gold-dim: #c7a75c;
   --surface-dim: #060708;
-  --surface-card: #0D0F12;
+  --surface-card: #0d0f12;
   --surface-raised: #121519;
   --border-light: rgba(255, 255, 255, 0.06);
   --border-gold: rgba(229, 195, 120, 0.25);
@@ -22,16 +22,26 @@
   --color-surface-raised: var(--surface-raised);
   --font-display: var(--font-syne), serif;
   --font-sans: var(--font-jakarta), sans-serif;
+  /* Dirección "Servicio" — por ahora solo la pantalla de bienvenida */
+  --font-condensed: var(--font-barlow), "Arial Narrow", sans-serif;
+  --font-tech: var(--font-mono-tech), ui-monospace, monospace;
 }
 
 body {
-  background: #08090A;
-  color: #F4F4F5;
+  background: #08090a;
+  color: #f4f4f5;
   font-family: var(--font-jakarta), sans-serif;
 }
 
-h1, h2, h3, .font-display {
-  font-family: var(--font-syne), serif;
+@layer base {
+  /* Debe ir en @layer base: fuera de una capa, esta regla de elemento gana
+     a las utilidades font-* de Tailwind v4 y no hay forma de sobrescribirla. */
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-syne), serif;
+  }
 }
 
 /* Glassmorphism de alta gama */
@@ -49,3 +59,36 @@ h1, h2, h3, .font-display {
   border: 1px solid rgba(229, 195, 120, 0.25);
 }
 
+/* Entrada de la pantalla de bienvenida.
+   En CSS y no en GSAP: una animación JS que no arranca deja la pantalla en
+   blanco, porque el estado inicial queda escrito en el atributo style. */
+@keyframes aura-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.aura-in {
+  animation: aura-rise 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aura-in {
+    animation: none;
+  }
+}
+
+/* Se usa en la fila de categorías; Tailwind no la trae de serie. */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
