@@ -1,26 +1,51 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #08090A;
+  --foreground: #F4F4F5;
+  --satin-gold: #E5C378;
+  --satin-gold-dim: #C7A75C;
+  --surface-dim: #060708;
+  --surface-card: #0D0F12;
+  --surface-raised: #121519;
+  --border-light: rgba(255, 255, 255, 0.06);
+  --border-gold: rgba(229, 195, 120, 0.25);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-gold: var(--satin-gold);
+  --color-gold-dim: var(--satin-gold-dim);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-card: var(--surface-card);
+  --color-surface-raised: var(--surface-raised);
+  --font-display: var(--font-syne), serif;
+  --font-sans: var(--font-jakarta), sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #08090A;
+  color: #F4F4F5;
+  font-family: var(--font-jakarta), sans-serif;
 }
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-syne), serif;
+}
+
+/* Glassmorphism de alta gama */
+.glass-panel {
+  background: rgba(13, 15, 18, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-panel-gold {
+  background: rgba(18, 21, 25, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(229, 195, 120, 0.25);
+}
+
