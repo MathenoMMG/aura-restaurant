@@ -42,3 +42,12 @@ next-env.d.ts
 
 # Salida generada por la skill graphify
 graphify-out/
+
+# Documentación de desarrollo: se queda en local, no va al repositorio
+/working.md
+/learnings.md
+/AGENTS.md
+/CLAUDE.md
+/docs/
+# ...salvo el esquema SQL, que es código
+!/docs/*.sql
