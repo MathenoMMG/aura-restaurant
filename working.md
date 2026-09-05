@@ -36,9 +36,12 @@
    - **Galería de fotos** con scroll-snap horizontal e indicador de posición (`gallery` nuevo en `Dish`).
    - Controles superiores reordenados: solo la X arriba a la izquierda; el conmutador Fotos / 360° y AR baja al pie de los medios, con degradado arriba y abajo para que se lea sobre fotos claras.
    - Ficha completa: nombre sin recortar, precio a 22px, gramaje, tagline, descripción, tabla Peso/Pase/Dieta, ingredientes, maridaje, origen y notas a cocina como campo con filete.
-5. **"Comanda" → "Pedido"** en toda la vista del comensal. En `AdminTemplate` se mantiene "Comandas Emitidas": ahí es terminología correcta de cocina.
-6. **Drawer del pedido rehecho** — `CartDrawer.tsx`: cabecera con el mismo formato que la barra de la carta (título + mesa en mono), aire entre bloques, líneas sin recuadros.
-7. **Tipografía** — `layout.tsx` carga Barlow Condensed y JetBrains Mono como variables adicionales; Syne/Jakarta siguen siendo los globales.
+5. **Netlify conectado a GitHub con Autodeploy**:
+   - Se vinculó el sitio `e4cd07eb-43b0-422c-96a3-01bdbe7c0342` (`aura-gastronomique`) con la GitHub App de Netlify bajo la instalación `74823193` (cuenta de GitHub `MathenoMMG/aura-restaurant`).
+   - El sitio ahora escucha automáticamente cada push a la rama `master` para compilar y desplegar en caliente sin intervención manual.
+6. **"Comanda" → "Pedido"** en toda la vista del comensal. En `AdminTemplate` se mantiene "Comandas Emitidas": ahí es terminología correcta de cocina.
+7. **Drawer del pedido rehecho** — `CartDrawer.tsx`: cabecera con el mismo formato que la barra de la carta (título + mesa en mono), aire entre bloques, líneas sin recuadros.
+8. **Tipografía** — `layout.tsx` carga Barlow Condensed y JetBrains Mono como variables adicionales; Syne/Jakarta siguen siendo los globales.
 
 ## Qué está fallando / pendiente
 
