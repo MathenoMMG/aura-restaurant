@@ -34,7 +34,7 @@ interface ComandaState {
 
 export const useComandaStore = create<ComandaState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       config: DEFAULT_RESTAURANT_CONFIG,
       dishes: INITIAL_DISHES,
       cart: [],

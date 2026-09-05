@@ -35,7 +35,8 @@ export const INITIAL_DISHES: Dish[] = [
       "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.40&fp-y=0.45&fp-z=1.7",
       "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.62&fp-y=0.58&fp-z=1.4",
     ],
-    model3dUrl: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+    model3dUrl:
+      "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Avocado/glTF-Binary/Avocado.glb",
     isAvailable: true,
     views3dCount: 430,
     ordersCount: 112,
@@ -65,8 +66,6 @@ export const INITIAL_DISHES: Dish[] = [
       "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.40&fp-y=0.45&fp-z=1.7",
       "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.62&fp-y=0.58&fp-z=1.4",
     ],
-    model3dUrl:
-      "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Burger/glTF-Binary/Burger.glb",
     isAvailable: true,
     views3dCount: 320,
     ordersCount: 88,
@@ -91,8 +90,6 @@ export const INITIAL_DISHES: Dish[] = [
       "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.40&fp-y=0.45&fp-z=1.7",
       "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.62&fp-y=0.58&fp-z=1.4",
     ],
-    model3dUrl:
-      "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb",
     isAvailable: true,
     views3dCount: 520,
     ordersCount: 140,
@@ -143,8 +140,6 @@ export const INITIAL_DISHES: Dish[] = [
       "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.40&fp-y=0.45&fp-z=1.7",
       "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.62&fp-y=0.58&fp-z=1.4",
     ],
-    model3dUrl:
-      "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Burger/glTF-Binary/Burger.glb",
     isAvailable: true,
     views3dCount: 660,
     ordersCount: 205,
@@ -173,6 +168,8 @@ export const INITIAL_DISHES: Dish[] = [
       "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.40&fp-y=0.45&fp-z=1.7",
       "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.62&fp-y=0.58&fp-z=1.4",
     ],
+    model3dUrl:
+      "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/WaterBottle/glTF-Binary/WaterBottle.glb",
     isAvailable: true,
     views3dCount: 310,
     ordersCount: 124,

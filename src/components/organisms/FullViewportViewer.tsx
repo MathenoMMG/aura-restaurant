@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Dish } from "@/types/menu";
 import { X, Plus, Minus, Check } from "lucide-react";
 
@@ -20,60 +21,77 @@ interface FullViewportViewerProps {
  * En ambos casos el bloque de medios se compacta al bajar, para que la
  * información quede accesible sin perder de vista el plato.
  */
+/** Monta el detalle sólo cuando hay plato, con `key` para que el estado
+ *  (vista, cantidad, notas) se reinicie solo al cambiar de plato. */
 export const FullViewportViewer: React.FC<FullViewportViewerProps> = ({
   dish,
   onClose,
   onAddToCart,
-}) => {
+}) => (
+  <AnimatePresence>
+    {dish && (
+      <DishDetail
+        key={dish.id}
+        dish={dish}
+        onClose={onClose}
+        onAddToCart={onAddToCart}
+      />
+    )}
+  </AnimatePresence>
+);
+
+const DishDetail: React.FC<{
+  dish: Dish;
+  onClose: () => void;
+  onAddToCart: (dish: Dish, quantity: number, notes: string) => void;
+}> = ({ dish, onClose, onAddToCart }) => {
   const [mode, setMode] = useState<"photo" | "3d">("photo");
   const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState("");
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
-  const [collapse, setCollapse] = useState(0);
 
-  const scrollRef = useRef<HTMLDivElement | null>(null);
   const railRef = useRef<HTMLDivElement | null>(null);
+  const mediaRef = useRef<HTMLDivElement | null>(null);
+  const reduceMotion = useReducedMotion();
 
-  const hasAR = Boolean(dish?.model3dUrl);
-  const photos = dish?.gallery?.length
-    ? dish.gallery
-    : dish
-      ? [dish.imageUrl]
-      : [];
+  // El avance del scroll viaja como variable CSS y mueve sólo un transform.
+  // Nada de estado ni de altos: así no se reabre el bucle de realimentación.
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const p = Math.min(1, e.currentTarget.scrollTop / 260);
+    mediaRef.current?.style.setProperty("--p", String(p));
+  }, []);
 
-  // Alto del bloque de medios: el plato con AR merece la pantalla; sin AR,
-  // la ficha es lo único que aporta, así que se le cede el espacio.
-  const mediaMax = hasAR ? 58 : 34;
-  const mediaMin = 17;
-  const mediaHeight = mediaMax - (mediaMax - mediaMin) * collapse;
+  const hasAR = Boolean(dish.model3dUrl);
+  const photos = dish.gallery?.length ? dish.gallery : [dish.imageUrl];
 
-  useEffect(() => {
-    setMode("photo");
-    setQuantity(1);
-    setNotes("");
-    setPhotoIndex(0);
-    setCollapse(0);
-    scrollRef.current?.scrollTo({ top: 0 });
-  }, [dish?.id]);
+  // Alto FIJO del bloque de medios. Antes se interpolaba con el scroll, pero
+  // cambiar el alto de un elemento sticky altera el alto total del contenido,
+  // lo que reajusta el scrollTop, que recalcula el alto otra vez: un bucle de
+  // realimentación que producía el temblor. Ahora el bloque se queda quieto y
+  // la ficha, opaca, se desliza por encima; la compactación es el resultado.
+  const mediaHeight = hasAR ? 58 : 34;
 
   useEffect(() => {
-    if (customElements.get("model-viewer")) {
-      setScriptLoaded(true);
-      return;
+    let cancelled = false;
+    if (!customElements.get("model-viewer")) {
+      const script = document.createElement("script");
+      script.type = "module";
+      script.src =
+        "https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js";
+      document.head.appendChild(script);
     }
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src =
-      "https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js";
-    script.onload = () => setScriptLoaded(true);
-    document.head.appendChild(script);
+    customElements.whenDefined("model-viewer").then(() => {
+      if (!cancelled) setScriptLoaded(true);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Bloquea el scroll del documento: sin esto el gesto se propaga a la carta.
   useEffect(() => {
-    if (!dish) return;
     const { body } = document;
     const scrollY = window.scrollY;
     const prev = {
@@ -90,12 +108,6 @@ export const FullViewportViewer: React.FC<FullViewportViewerProps> = ({
       body.style.width = prev.width;
       window.scrollTo(0, scrollY);
     };
-  }, [dish]);
-
-  const handleScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCollapse(Math.min(1, Math.max(0, el.scrollTop / 220)));
   }, []);
 
   const handleRailScroll = useCallback(() => {
@@ -103,8 +115,6 @@ export const FullViewportViewer: React.FC<FullViewportViewerProps> = ({
     if (!el || el.clientWidth === 0) return;
     setPhotoIndex(Math.round(el.scrollLeft / el.clientWidth));
   }, []);
-
-  if (!dish) return null;
 
   const handleAdd = () => {
     onAddToCart(dish, quantity, notes);
@@ -133,122 +143,138 @@ export const FullViewportViewer: React.FC<FullViewportViewerProps> = ({
   ];
 
   return (
-    <div
+    <motion.div
       role="dialog"
       aria-modal="true"
       aria-label={dish.name}
+      initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: "6%" }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: "4%" }}
+      transition={{ duration: 0.34, ease: [0.22, 0.7, 0.3, 1] }}
       className="fixed inset-0 z-50 flex h-[100dvh] flex-col bg-[#101010] text-[#F2EFE9]"
     >
+      {/* Fuera del contenedor con scroll: la ficha tapa los medios al bajar y
+          el cierre tiene que seguir siendo alcanzable en todo momento. */}
+      <button
+        onClick={onClose}
+        aria-label="Cerrar"
+        className="absolute left-3 top-3 z-40 flex h-11 w-11 cursor-pointer items-center justify-center text-[#F2EFE9] drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] transition-colors hover:text-[#B8845F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#B8845F]"
+      >
+        <X className="h-6 w-6 stroke-[1.5]" />
+      </button>
+
       <div
-        ref={scrollRef}
         onScroll={handleScroll}
         className="flex-1 overflow-y-auto overscroll-contain"
       >
-        {/* MEDIOS — se compactan al bajar */}
+        {/* MEDIOS — alto fijo; la ficha se desliza por encima */}
+        {/* MEDIOS — quedan detrás (z-0) y la ficha los va tapando al bajar:
+            ahí está la compactación. Antes iban en z-20, encima de la ficha,
+            y el texto desaparecía por debajo en vez de cubrirlos. */}
         <div
-          className="sticky top-0 z-20 bg-[#101010]"
+          ref={mediaRef}
+          className="sticky top-0 z-0 overflow-hidden bg-[#101010] [--p:0]"
           style={{ height: `${mediaHeight}dvh` }}
         >
-          {mode === "3d" && dish.model3dUrl && scriptLoaded ? (
-            React.createElement("model-viewer", {
-              src: dish.model3dUrl,
-              "ios-src": dish.usdzUrl || undefined,
-              poster: dish.imageUrl,
-              alt: dish.name,
-              "auto-rotate": true,
-              "rotation-per-second": "14deg",
-              "camera-controls": true,
-              ar: true,
-              // Scene Viewer primero: ancla con ARCore y no deriva al andar.
-              "ar-modes": "scene-viewer webxr quick-look",
-              "xr-environment": true,
-              "ar-scale": "fixed",
-              "ar-placement": "floor",
-              "shadow-intensity": "1.6",
-              exposure: "1.05",
-              style: {
-                width: "100%",
-                height: "100%",
-                outline: "none",
-                backgroundColor: "#101010",
-              },
-              children: (
+          <div
+            className="h-full w-full will-change-transform"
+            style={{
+              transform:
+                "translateY(calc(var(--p) * -14%)) scale(calc(1 + var(--p) * 0.08))",
+              opacity: "calc(1 - var(--p) * 0.35)",
+            }}
+          >
+            {mode === "3d" && dish.model3dUrl && scriptLoaded ? (
+              React.createElement(
+                "model-viewer",
+                {
+                  src: dish.model3dUrl,
+                  "ios-src": dish.usdzUrl || undefined,
+                  poster: dish.imageUrl,
+                  alt: dish.name,
+                  "auto-rotate": true,
+                  "rotation-per-second": "14deg",
+                  "camera-controls": true,
+                  ar: true,
+                  // WebXR primero para no salir de la web: Scene Viewer ancla
+                  // mejor pero abre otra aplicación. Queda como respaldo.
+                  "ar-modes": "webxr scene-viewer quick-look",
+                  "xr-environment": true,
+                  "ar-scale": "fixed",
+                  "ar-placement": "floor",
+                  "shadow-intensity": "1.6",
+                  exposure: "1.05",
+                  style: {
+                    width: "100%",
+                    height: "100%",
+                    outline: "none",
+                    backgroundColor: "#101010",
+                  },
+                },
                 <button
                   slot="ar-button"
-                  className="absolute bottom-4 left-1/2 -translate-x-1/2 cursor-pointer whitespace-nowrap bg-[#F2EFE9] px-6 py-3 font-condensed text-[13px] font-semibold uppercase tracking-[0.2em] text-[#101010]"
+                  className="absolute bottom-5 left-1/2 z-30 -translate-x-1/2 cursor-pointer whitespace-nowrap bg-[#F2EFE9] px-7 py-3.5 font-condensed text-[14px] font-semibold uppercase tracking-[0.2em] text-[#101010] shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
                 >
                   Verlo en su mesa
-                </button>
-              ),
-            })
-          ) : (
-            <div
-              ref={railRef}
-              onScroll={handleRailScroll}
-              className="scrollbar-none flex h-full w-full snap-x snap-mandatory overflow-x-auto"
-            >
-              {photos.map((src, i) => (
-                <div key={src} className="h-full w-full shrink-0 snap-center">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={src}
-                    alt={`${dish.name} — foto ${i + 1}`}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
+                </button>,
+              )
+            ) : (
+              <div
+                ref={railRef}
+                onScroll={handleRailScroll}
+                className="scrollbar-none flex h-full w-full snap-x snap-mandatory overflow-x-auto"
+              >
+                {photos.map((src, i) => (
+                  <div key={src} className="h-full w-full shrink-0 snap-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt={`${dish.name} — foto ${i + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Degradado sólo bajo los controles, para que se lean sobre la foto */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#101010]/80 to-transparent" />
           {/* Y otro abajo: sin él los conmutadores se pierden sobre fotos claras */}
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#101010]/85 to-transparent" />
 
-          <button
-            onClick={onClose}
-            aria-label="Cerrar"
-            className="absolute left-4 top-4 flex h-10 w-10 cursor-pointer items-center justify-center text-[#F2EFE9] transition-colors hover:text-[#B8845F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#B8845F]"
-          >
-            <X className="h-6 w-6 stroke-[1.5]" />
-          </button>
+          {/* Pestañas arriba, junto al cierre: abajo manda el CTA de AR */}
+          {hasAR && (
+            <div className="absolute right-5 top-6 z-30 flex gap-4">
+              <ViewTab
+                label="Fotos"
+                active={mode === "photo"}
+                onClick={() => setMode("photo")}
+              />
+              <ViewTab
+                label="360° y AR"
+                active={mode === "3d"}
+                onClick={() => setMode("3d")}
+              />
+            </div>
+          )}
 
-          {/* Índice de fotos / conmutador de vista, abajo y separados */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between px-5 pb-4">
-            {mode === "photo" && photos.length > 1 ? (
-              <div className="pointer-events-auto flex gap-1.5">
-                {photos.map((src, i) => (
-                  <span
-                    key={src}
-                    className={`h-[3px] w-6 transition-colors ${
-                      i === photoIndex ? "bg-[#F2EFE9]" : "bg-[#F2EFE9]/30"
-                    }`}
-                  />
-                ))}
-              </div>
-            ) : (
-              <span />
-            )}
-
-            {hasAR && (
-              <div className="pointer-events-auto flex gap-4">
-                <ViewTab
-                  label="Fotos"
-                  active={mode === "photo"}
-                  onClick={() => setMode("photo")}
+          {mode === "photo" && photos.length > 1 && (
+            <div className="absolute bottom-4 left-5 z-30 flex gap-1.5">
+              {photos.map((src, i) => (
+                <span
+                  key={src}
+                  className={`h-[3px] w-6 transition-colors ${
+                    i === photoIndex ? "bg-[#F2EFE9]" : "bg-[#F2EFE9]/30"
+                  }`}
                 />
-                <ViewTab
-                  label="360° y AR"
-                  active={mode === "3d"}
-                  onClick={() => setMode("3d")}
-                />
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* FICHA */}
-        <div className="relative z-10 bg-[#101010] px-5 pb-8 pt-6 sm:px-8">
+        <div className="relative z-10 bg-[#101010] px-5 pb-8 pt-6 shadow-[0_-24px_40px_rgba(16,16,16,0.9)] sm:px-8">
           <div className="mx-auto max-w-2xl">
             <h2 className="font-condensed text-[30px] font-semibold uppercase leading-[1] tracking-[0.005em] text-balance">
               {dish.name}
@@ -366,7 +392,7 @@ export const FullViewportViewer: React.FC<FullViewportViewerProps> = ({
           )}
         </button>
       </footer>
-    </div>
+    </motion.div>
   );
 };
 

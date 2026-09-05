@@ -129,6 +129,7 @@ export const AdminTemplate: React.FC = () => {
                 >
                   <td className="p-4">
                     <div className="flex items-center gap-3">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={item.imageUrl}
                         alt={item.name}
