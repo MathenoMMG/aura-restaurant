@@ -35,8 +35,8 @@ export const INITIAL_DISHES: Dish[] = [
       "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.40&fp-y=0.45&fp-z=1.7",
       "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80&crop=focalpoint&fp-x=0.62&fp-y=0.58&fp-z=1.4",
     ],
-    model3dUrl:
-      "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/Avocado/glTF-Binary/Avocado.glb",
+    model3dUrl: "/models/wagyu-fiorentina.glb",
+    modelCredit: "Modelo 3D: “Florence Steak” de Shahriar Shahrabi (CC BY)",
     isAvailable: true,
     views3dCount: 430,
     ordersCount: 112,

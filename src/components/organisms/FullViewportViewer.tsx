@@ -325,6 +325,12 @@ const DishDetail: React.FC<{
               </Block>
             )}
 
+            {dish.modelCredit && (
+              <p className="mt-6 font-tech text-[9px] leading-[1.6] tracking-[0.1em] text-[#5C5952]">
+                {dish.modelCredit}
+              </p>
+            )}
+
             {dish.originStory && (
               <Block label="Origen">{dish.originStory}</Block>
             )}

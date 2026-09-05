@@ -28,6 +28,8 @@ export interface Dish {
   originStory?: string;
   model3dUrl?: string;
   usdzUrl?: string;
+  /** Atribución del modelo 3D. Obligatoria con licencias CC BY. */
+  modelCredit?: string;
   imageUrl: string;
   /** Fotos adicionales del plato. La primera del visor es siempre imageUrl. */
   gallery?: string[];

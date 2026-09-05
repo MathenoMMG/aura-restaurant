@@ -49,8 +49,10 @@
 2. **Recorrido con capturas incompleto.** Solo verificada la bienvenida. Faltan carta, visor de plato, visor 3D, drawer de comanda y admin. El panel del navegador devolvía capturas escaladas/en mosaico y clics fuera de sitio; repetir con la ventana en primer plano.
 3. **`AdminTemplate` sin rediseñar**: única vista que sigue en la paleta antigua (Noir + Gold Satén + Syne).
 4. **La galería son encuadres del mismo original.** `gallery` se generó con `crop=focalpoint` sobre la foto existente de cada plato — sirve para ver el comportamiento, pero hacen falta fotos reales distintas por plato.
-4. **3 errores de ESLint preexistentes** en `FullViewportViewer.tsx`: un `any` en `viewerRef` y dos `react-hooks/set-state-in-effect`.
-5. **Supabase sin conectar** y sin `.env.local`; falta ejecutar `01_initial_schema.sql`.
+5. **Solo dos platos tienen modelo 3D** (Wagyu y Cóctel). El resto necesita GLB propios; el camino recomendado es escanear los platos reales con Scaniverse o similar.
+6. **Sin `.usdz`**: en iPhone, Quick Look sigue sin entrar.
+5. **3 errores de ESLint preexistentes** en `FullViewportViewer.tsx`: un `any` en `viewerRef` y dos `react-hooks/set-state-in-effect`.
+6. **Supabase sin conectar** y sin `.env.local`; falta ejecutar `01_initial_schema.sql`.
 
 ## Trampas conocidas del proyecto
 
