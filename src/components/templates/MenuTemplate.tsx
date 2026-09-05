@@ -65,14 +65,10 @@ export const MenuTemplate: React.FC<MenuTemplateProps> = ({ onBackToWelcome }) =
       />
 
       {/* Hero Editorial Minimalista */}
-      <section className="relative px-4 sm:px-8 pt-8 pb-6 border-b border-white/[0.06] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#121519]/60 via-[#08090A] to-[#08090A] overflow-hidden">
+      <section className="relative px-4 sm:px-8 pt-7 pb-5 border-b border-white/[0.06] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#121519]/50 via-[#08090A] to-[#08090A] overflow-hidden">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[4px] text-[10px] font-bold tracking-[0.2em] bg-[#121519] text-[#E5C378] border border-[#E5C378]/25 mb-3 uppercase font-mono">
-                <Box className="w-3 h-3 text-[#E5C378]" />
-                WebAR 1:1 Inmersivo
-              </div>
               <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[#F4F4F5] font-display uppercase leading-tight">
                 CARTA DE TEMPORADA
               </h2>

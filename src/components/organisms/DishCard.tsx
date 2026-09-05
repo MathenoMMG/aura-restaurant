@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import { Dish } from '@/types/menu';
@@ -26,17 +26,17 @@ export const DishCard: React.FC<DishCardProps> = ({ dish, onOpenViewer, onQuickA
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0D0F12] via-[#0D0F12]/20 to-transparent" />
 
-        {/* Badges superiores minimalistas (Sin emojis) */}
+        {/* Badges superiores discretos y elegantes */}
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5">
             {dish.model3dUrl && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-[10px] font-bold uppercase tracking-wider bg-[#08090A]/85 text-[#E5C378] border border-[#E5C378]/30 backdrop-blur-md">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E5C378] animate-pulse" />
-                AR 1:1 READY
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-[4px] text-[9px] font-bold uppercase tracking-wider bg-[#08090A]/85 text-[#E5C378] border border-[#E5C378]/25 backdrop-blur-md">
+                <Box className="w-3 h-3 text-[#E5C378]" />
+                <span>3D</span>
               </span>
             )}
             {dish.dietary.chefSpecial && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[10px] font-semibold tracking-wider bg-[#121519]/80 text-[#9FA4AD] border border-white/10 backdrop-blur-md uppercase">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-[4px] text-[9px] font-semibold tracking-wider bg-[#121519]/85 text-[#9FA4AD] border border-white/10 backdrop-blur-md uppercase">
                 CHEF SELECCIÓN
               </span>
             )}

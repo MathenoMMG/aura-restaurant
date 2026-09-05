@@ -17,12 +17,20 @@ export const FullViewportViewer: React.FC<FullViewportViewerProps> = ({
   onClose,
   onAddToCart,
 }) => {
-  const [mode, setMode] = useState<'3d' | 'ar'>('3d');
+  // Por defecto siempre abre en modo 'photo' (fotografía editorial)
+  const [mode, setMode] = useState<'photo' | '3d'>('photo');
   const [quantity, setQuantity] = useState(1);
   const [notes, setNotes] = useState('');
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
-  const viewerRef = useRef<HTMLElement | null>(null);
+  const viewerRef = useRef<any>(null);
+
+  // Reiniciar a modo photo cuando cambia de plato
+  useEffect(() => {
+    setMode('photo');
+    setQuantity(1);
+    setNotes('');
+  }, [dish?.id]);
 
   useEffect(() => {
     if (!customElements.get('model-viewer')) {
@@ -37,6 +45,12 @@ export const FullViewportViewer: React.FC<FullViewportViewerProps> = ({
   }, []);
 
   if (!dish) return null;
+
+  const handleTriggerAR = () => {
+    if (viewerRef.current && typeof viewerRef.current.activateAR === 'function') {
+      viewerRef.current.activateAR();
+    }
+  };
 
   const handleAdd = () => {
     onAddToCart(dish, quantity, notes);
@@ -77,46 +91,69 @@ export const FullViewportViewer: React.FC<FullViewportViewerProps> = ({
         {/* Glow ambiental para Modo Estudio */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(229,195,120,0.06),transparent_65%)] pointer-events-none" />
 
-        {dish.model3dUrl && scriptLoaded ? (
-          React.createElement(
-            'model-viewer',
-            {
-              ref: viewerRef,
-              src: dish.model3dUrl,
-              'ios-src': dish.usdzUrl || undefined,
-              poster: dish.imageUrl,
-              alt: dish.name,
-              'auto-rotate': mode === '3d',
-              'rotation-per-second': '15deg',
-              'camera-controls': true,
-              'touch-action': 'pan-y',
-              ar: true,
-              'ar-modes': 'webxr scene-viewer quick-look',
-              'ar-scale': 'auto',
-              'shadow-intensity': '1.8',
-              'shadow-softness': '0.8',
-              exposure: '1.1',
-              style: { width: '100%', height: '100%', outline: 'none' },
-            },
+        {/* MODO 360° ESTUDIO */}
+        {mode === '3d' && dish.model3dUrl && scriptLoaded ? (
+          <div className="relative w-full h-full flex items-center justify-center">
+            {React.createElement(
+              'model-viewer',
+              {
+                ref: viewerRef,
+                src: dish.model3dUrl,
+                'ios-src': dish.usdzUrl || undefined,
+                poster: dish.imageUrl,
+                alt: dish.name,
+                'auto-rotate': true,
+                'rotation-per-second': '15deg',
+                'camera-controls': true,
+                'touch-action': 'pan-y',
+                ar: true,
+                'ar-modes': 'webxr scene-viewer quick-look',
+                'ar-scale': 'fixed',
+                'ar-placement': 'floor',
+                'shadow-intensity': '1.8',
+                'shadow-softness': '0.8',
+                exposure: '1.1',
+                style: { width: '100%', height: '100%', outline: 'none' },
+              },
+              <button
+                slot="ar-button"
+                className="absolute top-4 right-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-[6px] bg-[#E5C378] hover:bg-[#F0DFA8] text-[#08090A] font-bold text-xs tracking-wider uppercase shadow-[0_0_25px_rgba(229,195,120,0.3)] transition-transform active:scale-95 cursor-pointer"
+              >
+                <Camera className="w-4 h-4" />
+                <span>PROYECTAR EN MESA</span>
+              </button>
+            )}
+
+            {/* Botón flotante accesible de Proyectar en Mesa si el slot no se presiona */}
             <button
-              slot="ar-button"
-              className="absolute top-4 right-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-[6px] bg-[#E5C378] hover:bg-[#F0DFA8] text-[#08090A] font-bold text-xs tracking-wider uppercase shadow-[0_0_25px_rgba(229,195,120,0.3)] transition-transform active:scale-95 cursor-pointer"
+              onClick={handleTriggerAR}
+              className="absolute top-4 right-4 z-20 flex items-center gap-2 px-4 py-2.5 rounded-[6px] bg-[#E5C378] hover:bg-[#F0DFA8] text-[#08090A] font-bold text-xs tracking-wider uppercase shadow-[0_0_25px_rgba(229,195,120,0.35)] transition-transform active:scale-95 cursor-pointer"
             >
               <Camera className="w-4 h-4" />
               <span>PROYECTAR EN MESA</span>
             </button>
-          )
+          </div>
         ) : (
-          <div className="relative w-full h-full flex items-center justify-center p-6">
+          /* MODO FOTOGRAFÍA EDITORIAL (Por defecto) */
+          <div className="relative w-full h-full flex flex-col items-center justify-center p-6">
             <img
               src={dish.imageUrl}
               alt={dish.name}
-              className="max-h-[65vh] w-auto max-w-full object-contain rounded-[14px] shadow-2xl border border-white/[0.08]"
+              className="max-h-[60vh] sm:max-h-[68vh] w-auto max-w-full object-contain rounded-[14px] shadow-2xl border border-white/[0.08]"
             />
+            {dish.model3dUrl && (
+              <button
+                onClick={() => setMode('3d')}
+                className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-[6px] bg-[#121519]/90 hover:bg-[#1A1E24] text-[#E5C378] border border-[#E5C378]/30 text-xs font-bold tracking-widest uppercase transition-all backdrop-blur-md cursor-pointer active:scale-95 shadow-lg"
+              >
+                <RotateCcw className="w-3.5 h-3.5 text-[#E5C378]" />
+                <span>ACTIVAR VISTA 360° & AR</span>
+              </button>
+            )}
           </div>
         )}
 
-        {/* Indicador de gesto táctil */}
+        {/* Indicador de gesto táctil en 3D */}
         {mode === '3d' && (
           <div className="absolute bottom-3 left-4 pointer-events-none flex items-center gap-2 text-[#9FA4AD] text-[11px] bg-[#08090A]/85 backdrop-blur-md px-3 py-1 rounded-[4px] border border-white/[0.08]">
             <RotateCcw className="w-3 h-3 text-[#E5C378]" />
